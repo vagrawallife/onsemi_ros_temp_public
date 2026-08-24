@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+<xacro:macro name="omni_steering"> 
+
+    <gazebo>
+    <plugin name="omni_steering" filename="libgazebo_ros_planar_move.so">
+        <commandTopic>cmd_vel</commandTopic>
+        <odometryTopic>odom</odometryTopic>
+        <odometryFrame>odom</odometryFrame>
+        <odometryRate>50.0</odometryRate>
+        <robotBaseFrame>amr_footprint</robotBaseFrame>
+    </plugin>
+    </gazebo> 
+
+</xacro:macro>
+
+
+</robot>

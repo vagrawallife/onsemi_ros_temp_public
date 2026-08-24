@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
+
+    <joint name="itof_joint" type="fixed">
+        <parent link="head_1"/>
+        <child link="itof_optical_frame"/>
+        <origin xyz="0.08 -0.065 0.15" rpy="-${pi/2} 0 -${pi/2}"/>
+    </joint>
+
+    <link name="itof_optical_frame">
+        <visual>
+            <geometry>
+                <box size="0.010 0.03 0.03"/>
+            </geometry>
+            <material name="black"/>
+        </visual>
+        <visual>
+            <origin xyz="0 0 -0.05"/>
+            <geometry>
+                <cylinder radius="0.002" length="0.1"/>
+            </geometry>
+            <material name="black"/>
+        </visual>
+    </link>
+
+
+</robot>

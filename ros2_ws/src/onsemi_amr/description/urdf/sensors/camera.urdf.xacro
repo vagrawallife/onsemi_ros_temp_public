@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="rplidar">
+
+<!-- constants -->
+<xacro:property name="PI" value="3.141592653" />
+
+
+<!--  define wheel -->
+<xacro:macro name="camera" params="parent origin_xyz origin_rpy">
+
+   <!-- Camera -->
+   <link name="camera_link">
+      <collision>
+         <origin xyz="0 0 0" rpy="0 0 0"/>
+         <geometry>
+            <box size="0.05 0.05 0.05"/>
+         </geometry>
+      </collision>
+
+      <visual>
+         <origin xyz="0 0 0" rpy="0 0 0"/>
+         <geometry>
+            <box size="0.05 0.05 0.05"/>
+         </geometry>
+         <material name="grey"/>
+      </visual>
+
+      <inertial>
+         <mass value="1e-5" />
+         <origin xyz="0 0 0" rpy="0 0 0"/>
+         <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+      </inertial>
+   </link>
+
+   <link name="camera_sim_link">
+   </link>
+
+   <joint name="camera_joint" type="fixed">
+      <parent link="base"/>
+      <child link="camera_link"/>
+      <origin xyz="0.21 0.05 0.20" rpy="${-PI/2} 0 ${-PI/2}"/>
+      <axis xyz="0 1 0" />
+   </joint>
+
+   <joint name="camera_sim_joint" type="fixed">
+      <parent link="base"/>
+      <child link="camera_sim_link"/>
+      <origin xyz="0.21 0.05 0.20" rpy="0 0 0"/>
+      <axis xyz="0 1 0" />
+   </joint>
+
+</xacro:macro>
+
+</robot>
+
+
+
+ 

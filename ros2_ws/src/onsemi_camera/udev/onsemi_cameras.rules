@@ -1,0 +1,6 @@
+SUBSYSTEM=="video4linux", ATTR{name}=="VCI-AR0234-C", ENV{ID_V4L_CAPABILITIES}==":capture:", ACTION=="add", MODE="0666", SYMLINK+="onsemi_camera"
+SUBSYSTEM=="video4linux", ATTR{name}=="See3CAM_24CUG", ENV{ID_V4L_CAPABILITIES}==":capture:", ACTION=="add", MODE="0666", SYMLINK+="onsemi_camera" 
+
+SUBSYSTEM=="video4linux", ATTR{name}=="Global Shutter Camera: Global S", ENV{ID_V4L_CAPABILITIES}==":capture:", ACTION=="add", MODE="0666", SYMLINK+="onsemi_camera"
+
+SUBSYSTEM=="video4linux", ATTR{name}=="LI-AR0234", ENV{ID_V4L_CAPABILITIES}==":capture:", ACTION=="add", MODE="0666", SYMLINK+="onsemi_stereo"

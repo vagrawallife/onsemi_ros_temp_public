@@ -1,0 +1,3 @@
+SUBSYSTEMS=="usb", KERNEL=="ttyUSB*", ATTRS{serial}=="DT03WXIP", ACTION=="add", MODE="0666", SYMLINK+="onsemi_leds" 
+SUBSYSTEMS=="usb", KERNEL=="ttyUSB*", ATTRS{serial}=="DT03WXHO", ACTION=="add", MODE="0666", SYMLINK+="onsemi_leds" 
+SUBSYSTEMS=="usb", KERNEL=="ttyUSB*", ATTRS{serial}=="DK0A8D7E", ACTION=="add", MODE="0666", SYMLINK+="onsemi_leds"

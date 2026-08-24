@@ -1,0 +1,2 @@
+SUBSYSTEMS=="usb", KERNEL=="ttyACM*",ATTRS{idProduct}=="0483", ACTION=="add", MODE="0666", SYMLINK+="onsemi_matrix"
+

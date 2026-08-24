@@ -1,0 +1,1171 @@
+<?xml version="1.0" ?>
+<robot name="sim_onsemi" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<xacro:include filename="$(find onsemi_amr)/description/urdf/onsemi_urdf/materials.xacro" />
+<xacro:include filename="$(find onsemi_amr)/description/urdf/onsemi_urdf/sim_onsemi.trans" />
+<xacro:include filename="$(find onsemi_amr)/description/urdf/onsemi_urdf/sim_onsemi.gazebo" />
+<xacro:include filename="$(find onsemi_amr)/description/urdf/onsemi_urdf/camera.xacro" />
+<xacro:include filename="$(find onsemi_amr)/description/urdf/onsemi_urdf/itof.xacro" />
+
+
+<link name="base_footprint"/>
+
+<joint name="base_footprint_to_base_link" type="fixed">
+  <parent link="base_footprint"/>
+  <child link="base_link"/>
+  <origin xyz="0 0 0" rpy="0 0 0"/>
+</joint>
+
+
+<link name="base_link">
+  <inertial>
+    <origin xyz="0.5417520870661299 -0.45880104346190204 -0.29041194855610586" rpy="0 0 0"/>
+    <mass value="55.34714651878872"/>
+    <inertia ixx="4.330097" iyy="3.832312" izz="4.977998" ixy="-0.015049" iyz="0.001601" ixz="0.001914"/>
+  </inertial>
+  <visual>
+    <origin xyz="0 0 0" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/base_link.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0 0 0" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/base_link.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="chest_link">
+  <inertial>
+    <origin xyz="-0.5028555926222714 -0.5497782455599248 0.9817847603913077" rpy="0 0 0"/>
+    <mass value="72.0582703317404"/>
+    <inertia ixx="5.455184" iyy="5.189663" izz="1.283319" ixy="-0.00185" iyz="-0.003564" ixz="0.041995"/>
+  </inertial>
+  <visual>
+    <origin xyz="-1.042922 -0.090437 0.405608" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/chest_link.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-1.042922 -0.090437 0.405608" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/chest_link.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+
+
+<link name="l_elbow_link_1">
+  <inertial>
+    <origin xyz="1.7713947376707395e-06 4.9156965604996855e-05 -0.026007564727441923" rpy="0 0 0"/>
+    <mass value="5.792778702544329"/>
+    <inertia ixx="0.009167" iyy="0.023799" izz="0.023155" ixy="-0.0" iyz="-1.2e-05" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.559816 -0.014683 -0.698481" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/l_elbow_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.559816 -0.014683 -0.698481" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/l_elbow_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="l_wrist_link_1">
+  <inertial>
+    <origin xyz="-0.0007985304325335285 1.972559444417786e-05 -0.014215675963531516" rpy="0 0 0"/>
+    <mass value="2.0242464465097476"/>
+    <inertia ixx="0.004346" iyy="0.001531" izz="0.004067" ixy="4e-06" iyz="1e-06" ixz="-7.2e-05"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.559818 -0.014693 -0.418208" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/l_wrist_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.559818 -0.014693 -0.418208" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/l_wrist_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="l_hand_link_1">
+  <inertial>
+    <origin xyz="-0.010189485612634996 -0.0017938319554915202 -0.07127417295049038" rpy="0 0 0"/>
+    <mass value="2.1164923729205256"/>
+    <inertia ixx="0.006048" iyy="0.005699" izz="0.002054" ixy="-8.7e-05" iyz="-5.9e-05" ixz="-0.000967"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.559636 -0.014695 -0.370188" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/l_hand_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.559636 -0.014695 -0.370188" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/l_hand_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="l_underarm_link_1">
+  <inertial>
+    <origin xyz="0.0004797695980639505 -2.990495581549346e-08 -0.08310872493124222" rpy="0 0 0"/>
+    <mass value="7.988331355823472"/>
+    <inertia ixx="0.038883" iyy="0.03433" izz="0.01559" ixy="-1e-06" iyz="-0.0" ixz="-0.000101"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.559816 -0.014685 -0.638181" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/l_underarm_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.559816 -0.014685 -0.638181" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/l_underarm_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="l_upperarm_link_1">
+  <inertial>
+    <origin xyz="0.00551490727512971 0.11319392659505005 0.007949047601872095" rpy="0 0 0"/>
+    <mass value="11.481809291010515"/>
+    <inertia ixx="0.097684" iyy="0.033778" izz="0.110171" ixy="0.003756" iyz="-0.006296" ixz="0.000778"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.559826 0.23426 -0.70283" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/l_upperarm_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.559826 0.23426 -0.70283" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/l_upperarm_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="r_underarm_link_1">
+  <inertial>
+    <origin xyz="4.014519462858246e-06 0.0004816855947217258 -0.07510870850204332" rpy="0 0 0"/>
+    <mass value="7.988331355823472"/>
+    <inertia ixx="0.03433" iyy="0.038883" izz="0.01559" ixy="1e-06" iyz="-0.000101" ixz="1e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.559856 0.934372 -0.636304" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/r_underarm_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.559856 0.934372 -0.636304" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/r_underarm_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="r_wrist_link_1">
+  <inertial>
+    <origin xyz="-1.9112144237443118e-05 -0.0009920149547967272 -0.014215699906171497" rpy="0 0 0"/>
+    <mass value="2.024246446509748"/>
+    <inertia ixx="0.001531" iyy="0.004346" izz="0.004067" ixy="-4e-06" iyz="-7.2e-05" ixz="-1e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.559858 0.934364 -0.424331" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/r_wrist_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.559858 0.934364 -0.424331" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/r_wrist_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="r_hand_link_1">
+  <inertial>
+    <origin xyz="-0.010229863454602084 0.0018276168781259372 -0.07133406623943744" rpy="0 0 0"/>
+    <mass value="2.114323743392705"/>
+    <inertia ixx="0.006034" iyy="0.005695" izz="0.002051" ixy="8.6e-05" iyz="5.7e-05" ixz="-0.000964"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.559858 0.934739 -0.376311" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/r_hand_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.559858 0.934739 -0.376311" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/r_hand_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="r_upperarm_link_1">
+  <inertial>
+    <origin xyz="4.687559069904701e-06 -0.10594521639993748 0.010800005719041827" rpy="0 0 0"/>
+    <mass value="13.083761277856066"/>
+    <inertia ixx="0.104206" iyy="0.038005" izz="0.119117" ixy="3e-06" iyz="0.00731" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.559845 0.685432 -0.702813" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/r_upperarm_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.559845 0.685432 -0.702813" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/r_upperarm_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="r_elbow_link_1">
+  <inertial>
+    <origin xyz="1.6505076402273389e-06 4.9213108741508194e-05 -0.02600756184150055" rpy="0 0 0"/>
+    <mass value="5.792778702544329"/>
+    <inertia ixx="0.009167" iyy="0.023799" izz="0.023155" ixy="-0.0" iyz="-1.2e-05" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.559856 0.934374 -0.702804" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/r_elbow_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.559856 0.934374 -0.702804" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/r_elbow_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="head_1">
+  <inertial>
+    <origin xyz="-0.010914061184115975 -0.027832449614791366 0.10677018354824175" rpy="0 0 0"/>
+    <mass value="12.330590597642802"/>
+    <inertia ixx="0.113291" iyy="0.131034" izz="0.107977" ixy="0.000996" iyz="0.003303" ixz="-0.000105"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.530746 0.423467 -0.979271" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/head_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.530746 0.423467 -0.979271" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/head_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="l_shoulder_link_1">
+  <inertial>
+    <origin xyz="-0.048611065101310746 0.04272521263594237 -0.09757664242721897" rpy="0 0 0"/>
+    <mass value="6.780586664922482"/>
+    <inertia ixx="0.03221" iyy="0.035314" izz="0.01425" ixy="-5e-06" iyz="0.002383" ixz="0.000219"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.60983 0.318845 -0.752827" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/l_shoulder_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.60983 0.318845 -0.752827" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/l_shoulder_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="r_shoulder_link_1">
+  <inertial>
+    <origin xyz="-0.04860661625405016 -0.04272302751977064 -0.09757982238460661" rpy="0 0 0"/>
+    <mass value="6.780581810146318"/>
+    <inertia ixx="0.03221" iyy="0.035314" izz="0.014249" ixy="5e-06" iyz="-0.002382" ixz="0.000219"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.609841 0.600845 -0.752817" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/r_shoulder_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.609841 0.600845 -0.752817" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/r_shoulder_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+
+<link name="neck_yes_1">
+  <inertial>
+    <origin xyz="5.8284114593853964e-05 -0.00016630370475922973 0.038132351363926564" rpy="0 0 0"/>
+    <mass value="1.00007147940397"/>
+    <inertia ixx="0.001304" iyy="0.001588" izz="0.001102" ixy="-9e-06" iyz="7e-06" ixz="-2e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.530281 0.459242 -0.926706" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/neck_yes_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.530281 0.459242 -0.926706" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/neck_yes_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="r_thumb_l1_1">
+  <inertial>
+    <origin xyz="4.046300376980838e-07 2.038435146234363e-07 -0.0017135613111675663" rpy="0 0 0"/>
+    <mass value="0.007077302258414385"/>
+    <inertia ixx="0.0" iyy="0.0" izz="0.0" ixy="0.0" iyz="0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.588458 0.959483 -0.302777" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/r_thumb_l1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.588458 0.959483 -0.302777" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/r_thumb_l1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="r_thumb_l2_1">
+  <inertial>
+    <origin xyz="0.02684698995452517 -4.38859920093293e-05 -0.0011778686182363773" rpy="0 0 0"/>
+    <mass value="0.09639811177074797"/>
+    <inertia ixx="7e-06" iyy="2.2e-05" izz="2.2e-05" ixy="0.0" iyz="0.0" ixz="1e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.588458 0.959483 -0.293277" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/r_thumb_l2_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.588458 0.959483 -0.293277" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/r_thumb_l2_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="r_thumb_l3_1">
+  <inertial>
+    <origin xyz="0.025850190100559223 -0.00010034912015421948 -0.009353327900136488" rpy="0 0 0"/>
+    <mass value="0.08463607855494876"/>
+    <inertia ixx="6e-06" iyy="1.7e-05" izz="1.7e-05" ixy="-0.0" iyz="0.0" ixz="4e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.63777 0.95948 -0.289978" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/r_thumb_l3_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.63777 0.95948 -0.289978" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/r_thumb_l3_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="l_thumb_l1_1">
+  <inertial>
+    <origin xyz="3.3213651651209375e-07 6.283147289259938e-08 -0.001712777640808738" rpy="0 0 0"/>
+    <mass value="0.007077302258414385"/>
+    <inertia ixx="0.0" iyy="0.0" izz="0.0" ixy="0.0" iyz="0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.588233 -0.039446 -0.296655" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/l_thumb_l1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.588233 -0.039446 -0.296655" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/l_thumb_l1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="l_thumb_2_1">
+  <inertial>
+    <origin xyz="0.026643764540211112 -4.429048189141804e-05 0.004502871870941061" rpy="0 0 0"/>
+    <mass value="0.09639909623489683"/>
+    <inertia ixx="7e-06" iyy="2.2e-05" izz="2.2e-05" ixy="0.0" iyz="0.0" ixz="-2e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.588233 -0.039446 -0.287155" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/l_thumb_2_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.588233 -0.039446 -0.287155" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/l_thumb_2_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="l_thumb_3_1">
+  <inertial>
+    <origin xyz="0.027081312053237605 -9.99075999475671e-05 -0.003723027623915187" rpy="0 0 0"/>
+    <mass value="0.08463822998439989"/>
+    <inertia ixx="5e-06" iyy="1.7e-05" izz="1.8e-05" ixy="-0.0" iyz="-0.0" ixz="2e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.637369 -0.039448 -0.292371" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/l_thumb_3_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.637369 -0.039448 -0.292371" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/l_thumb_3_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="l_f1_l1_1">
+  <inertial>
+    <origin xyz="0.001713542965300907 4.94935066298885e-07 4.840256659088826e-07" rpy="0 0 0"/>
+    <mass value="0.007077302258414385"/>
+    <inertia ixx="0.0" iyy="0.0" izz="0.0" ixy="-0.0" iyz="0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.542146 -0.039073 -0.212391" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/l_f1_l1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.542146 -0.039073 -0.212391" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/l_f1_l1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="l_f2_l1_1">
+  <inertial>
+    <origin xyz="0.0017128746235640646 2.7782598095282135e-07 2.757986194978912e-08" rpy="0 0 0"/>
+    <mass value="0.007077302258414385"/>
+    <inertia ixx="0.0" iyy="0.0" izz="0.0" ixy="-0.0" iyz="0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.542148 -0.006273 -0.218436" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/l_f2_l1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.542148 -0.006273 -0.218436" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/l_f2_l1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="l_f3_l1_1">
+  <inertial>
+    <origin xyz="0.001713141795769646 -1.1768930142930234e-07 4.0235925757858837e-07" rpy="0 0 0"/>
+    <mass value="0.007077302258414385"/>
+    <inertia ixx="0.0" iyy="0.0" izz="0.0" ixy="-0.0" iyz="0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.542149 0.025927 -0.229447" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/l_f3_l1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.542149 0.025927 -0.229447" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/l_f3_l1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="l_f1_l2_1">
+  <inertial>
+    <origin xyz="-0.0035018995487056115 4.622393390431301e-05 -0.026643849416911614" rpy="0 0 0"/>
+    <mass value="0.09639909623489683"/>
+    <inertia ixx="2.2e-05" iyy="2.2e-05" izz="7e-06" ixy="0.0" iyz="0.0" ixz="-2e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.551646 -0.039074 -0.212392" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/l_f1_l2_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.551646 -0.039074 -0.212392" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/l_f1_l2_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="l_f2_l2_1">
+  <inertial>
+    <origin xyz="-0.003502567890442676 4.6006824818937454e-05 -0.026643305862715433" rpy="0 0 0"/>
+    <mass value="0.09639909623489683"/>
+    <inertia ixx="2.2e-05" iyy="2.2e-05" izz="7e-06" ixy="0.0" iyz="0.0" ixz="-2e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.551648 -0.006274 -0.218436" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/l_f2_l2_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.551648 -0.006274 -0.218436" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/l_f2_l2_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="l_f3_l2_1">
+  <inertial>
+    <origin xyz="-0.0035023007182368726 4.661130953652337e-05 -0.026642931083319638" rpy="0 0 0"/>
+    <mass value="0.09639909623489683"/>
+    <inertia ixx="2.2e-05" iyy="2.2e-05" izz="7e-06" ixy="0.0" iyz="0.0" ixz="-2e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.551649 0.025927 -0.229447" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/l_f3_l2_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.551649 0.025927 -0.229447" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/l_f3_l2_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="l_f1_l3_1">
+  <inertial>
+    <origin xyz="0.004722387358067515 0.00010293706513812145 -0.02708136959259913" rpy="0 0 0"/>
+    <mass value="0.08463822998439989"/>
+    <inertia ixx="1.8e-05" iyy="1.7e-05" izz="5e-06" ixy="-0.0" iyz="-0.0" ixz="2e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.546332 -0.039075 -0.163256" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/l_f1_l3_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.546332 -0.039075 -0.163256" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/l_f1_l3_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="l_f2_l3_1">
+  <inertial>
+    <origin xyz="0.00472271901633059 0.0001027199560524562 -0.027081826038402868" rpy="0 0 0"/>
+    <mass value="0.08463822998439989"/>
+    <inertia ixx="1.8e-05" iyy="1.7e-05" izz="5e-06" ixy="-0.0" iyz="-0.0" ixz="2e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.546333 -0.006275 -0.169301" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/l_f2_l3_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.546333 -0.006275 -0.169301" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/l_f2_l3_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="l_f3_l3_1">
+  <inertial>
+    <origin xyz="0.003722986189451327 0.00010228238503885018 -0.027081459163397353" rpy="0 0 0"/>
+    <mass value="0.08463822998439989"/>
+    <inertia ixx="1.8e-05" iyy="1.7e-05" izz="5e-06" ixy="-0.0" iyz="-0.0" ixz="2e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.546334 0.025925 -0.180312" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/l_f3_l3_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.546334 0.025925 -0.180312" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/l_f3_l3_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="r_f1_l1_1">
+  <inertial>
+    <origin xyz="0.0017135840289423943 -3.032571493921665e-08 -2.7280108597094177e-07" rpy="0 0 0"/>
+    <mass value="0.007077302258414385"/>
+    <inertia ixx="0.0" iyy="0.0" izz="0.0" ixy="-0.0" iyz="-0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.542371 0.959108 -0.218513" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/r_f1_l1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.542371 0.959108 -0.218513" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/r_f1_l1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="r_f1_l2_1">
+  <inertial>
+    <origin xyz="-0.003501858485067233 4.66986731192387e-05 -0.026643606243642315" rpy="0 0 0"/>
+    <mass value="0.09639909623489683"/>
+    <inertia ixx="2.2e-05" iyy="2.2e-05" izz="7e-06" ixy="0.0" iyz="0.0" ixz="-2e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.551871 0.959108 -0.218513" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/r_f1_l2_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.551871 0.959108 -0.218513" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/r_f1_l2_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="r_f1_l3_1">
+  <inertial>
+    <origin xyz="0.004722428421706115 0.00010241180435210939 -0.02708112641932936" rpy="0 0 0"/>
+    <mass value="0.08463822998439989"/>
+    <inertia ixx="1.8e-05" iyy="1.7e-05" izz="5e-06" ixy="-0.0" iyz="-0.0" ixz="2e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.546557 0.959106 -0.169377" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/r_f1_l3_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.546557 0.959106 -0.169377" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/r_f1_l3_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="r_f2_l1_1">
+  <inertial>
+    <origin xyz="0.001713156812586214 -2.4753526051135566e-07 -3.7295004270965215e-07" rpy="0 0 0"/>
+    <mass value="0.007077302258414385"/>
+    <inertia ixx="0.0" iyy="0.0" izz="0.0" ixy="-0.0" iyz="-0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.54237 0.926308 -0.22456" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/r_f2_l1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.54237 0.926308 -0.22456" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/r_f2_l1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="r_f2_l2_1">
+  <inertial>
+    <origin xyz="-0.0035022857014237463 4.648146357266736e-05 -0.026643706392599054" rpy="0 0 0"/>
+    <mass value="0.09639909623489683"/>
+    <inertia ixx="2.2e-05" iyy="2.2e-05" izz="7e-06" ixy="0.0" iyz="0.0" ixz="-2e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.55187 0.926308 -0.22456" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/r_f2_l2_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.55187 0.926308 -0.22456" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/r_f2_l2_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="r_f2_l3_1">
+  <inertial>
+    <origin xyz="0.004723001205349298 0.00010219459480442783 -0.027081226568286265" rpy="0 0 0"/>
+    <mass value="0.08463822998439989"/>
+    <inertia ixx="1.8e-05" iyy="1.7e-05" izz="5e-06" ixy="-0.0" iyz="-0.0" ixz="2e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.546555 0.926306 -0.175424" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/r_f2_l3_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.546555 0.926306 -0.175424" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/r_f2_l3_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="r_f3_l1_1">
+  <inertial>
+    <origin xyz="0.0017137155773936374 3.568509596707514e-07 3.1502321787280074e-07" rpy="0 0 0"/>
+    <mass value="0.007077302258414385"/>
+    <inertia ixx="0.0" iyy="0.0" izz="0.0" ixy="-0.0" iyz="-0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.542368 0.894109 -0.235573" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/r_f3_l1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.542368 0.894109 -0.235573" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/r_f3_l1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="r_f3_l2_1">
+  <inertial>
+    <origin xyz="-0.003501726936616101 4.6085849793042755e-05 -0.026643018419338416" rpy="0 0 0"/>
+    <mass value="0.09639909623489683"/>
+    <inertia ixx="2.2e-05" iyy="2.2e-05" izz="7e-06" ixy="0.0" iyz="0.0" ixz="-2e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.551868 0.894108 -0.235573" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/r_f3_l2_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.551868 0.894108 -0.235573" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/r_f3_l2_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="r_f3_l3_1">
+  <inertial>
+    <origin xyz="0.004722559970156581 0.00010279898102527607 -0.027081538595025684" rpy="0 0 0"/>
+    <mass value="0.08463822998439989"/>
+    <inertia ixx="1.8e-05" iyy="1.7e-05" izz="5e-06" ixy="-0.0" iyz="-0.0" ixz="2e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.546554 0.894107 -0.186438" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/r_f3_l3_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.546554 0.894107 -0.186438" rpy="-1.5708 0 0"/>
+    <geometry>
+      <mesh filename="package://onsemi_amr/description/meshes/onsemi_humanoid/r_f3_l3_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<joint name="l_elbow_joint" type="revolute">
+  <origin xyz="-1e-05 0.248943 -0.004349" rpy="0 0 0"/>
+  <parent link="l_upperarm_link_1"/>
+  <child link="l_elbow_link_1"/>
+  <axis xyz="1.0 4.2e-05 8e-06"/>
+  <limit upper="0.0" lower="-2.268928" effort="100" velocity="100"/>
+</joint>
+
+<joint name="l_wrist_joint" type="revolute">
+  <origin xyz="2e-06 8e-06 -0.219973" rpy="0 0 0"/>
+  <parent link="l_underarm_link_1"/>
+  <child link="l_wrist_link_1"/>
+  <axis xyz="4.2e-05 -1.0 -3.6e-05"/>
+  <limit upper="1.832596" lower="-1.745329" effort="100" velocity="100"/>
+</joint>
+
+<joint name="l_hand_joint" type="revolute">
+  <origin xyz="-0.000182 2e-06 -0.04802" rpy="0 0 0"/>
+  <parent link="l_wrist_link_1"/>
+  <child link="l_hand_link_1"/>
+  <axis xyz="8e-06 3.6e-05 -1.0"/>
+  <limit upper="5.235988" lower="0.0" effort="100" velocity="100"/>
+</joint>
+
+<joint name="l_underarm_joint" type="revolute">
+  <origin xyz="0.0 2e-06 -0.0603" rpy="0 0 0"/>
+  <parent link="l_elbow_link_1"/>
+  <child link="l_underarm_link_1"/>
+  <axis xyz="8e-06 3.6e-05 -1.0"/>
+  <limit upper="5.235988" lower="0.0" effort="100" velocity="100"/>
+</joint>
+
+<joint name="l_shoulder_joint" type="revolute">
+  <origin xyz="-0.050004 0.084585 -0.049997" rpy="0 0 0"/>
+  <parent link="l_shoulder_link_1"/>
+  <child link="l_upperarm_link_1"/>
+  <axis xyz="-4.2e-05 1.0 3.6e-05"/>
+  <limit upper="0.0" lower="-3.490659" effort="100" velocity="100"/>
+</joint>
+
+<joint name="r_underarm_joint" type="revolute">
+  <origin xyz="0.0 2e-06 -0.0665" rpy="0 0 0"/>
+  <parent link="r_elbow_link_1"/>
+  <child link="r_underarm_link_1"/>
+  <axis xyz="-8e-06 -3.6e-05 1.0"/>
+  <limit upper="3.490659" lower="0.0" effort="100" velocity="100"/>
+</joint>
+
+<joint name="r_wrist_joint" type="revolute">
+  <origin xyz="2e-06 8e-06 -0.211973" rpy="0 0 0"/>
+  <parent link="r_underarm_link_1"/>
+  <child link="r_wrist_link_1"/>
+  <axis xyz="1.0 4.2e-05 8e-06"/>
+  <limit upper="1.919862" lower="-1.745329" effort="100" velocity="100"/>
+</joint>
+
+<joint name="r_hand_joint" type="revolute">
+  <origin xyz="0.0 -0.000375 -0.04802" rpy="0 0 0"/>
+  <parent link="r_wrist_link_1"/>
+  <child link="r_hand_link_1"/>
+  <axis xyz="8e-06 3.6e-05 -1.0"/>
+  <limit upper="3.490659" lower="0.0" effort="100" velocity="100"/>
+</joint>
+
+<joint name="r_shoulder_joint" type="revolute">
+  <origin xyz="-0.049996 -0.084587 -0.050004" rpy="0 0 0"/>
+  <parent link="r_shoulder_link_1"/>
+  <child link="r_upperarm_link_1"/>
+  <axis xyz="-4.2e-05 1.0 3.6e-05"/>
+  <limit upper="6.283185" lower="0.0" effort="100" velocity="100"/>
+</joint>
+
+<joint name="r_elbow_joint" type="revolute">
+  <origin xyz="1.1e-05 -0.248942 -9e-06" rpy="0 0 0"/>
+  <parent link="r_upperarm_link_1"/>
+  <child link="r_elbow_link_1"/>
+  <axis xyz="-1.0 -4.2e-05 -8e-06"/>
+  <limit upper="1.22173" lower="-1.570796" effort="100" velocity="100"/>
+</joint>
+
+<joint name="neck_yes_joint" type="revolute">
+  <origin xyz="0.000465 0.035775 0.052565" rpy="0 0 0"/>
+  <parent link="neck_yes_1"/>
+  <child link="head_1"/>
+  <axis xyz="4.2e-05 -1.0 -3.6e-05"/>
+  <limit upper="0.872665" lower="-0.785398" effort="100" velocity="100"/>
+</joint>
+
+<joint name="l_rigid_joint" type="fixed">
+  <origin xyz="-0.433092 -0.409282 1.158435" rpy="0 0 0"/>
+  <parent link="chest_link"/>
+  <child link="l_shoulder_link_1"/>
+</joint>
+
+<joint name="r_rigid_joint" type="fixed">
+  <origin xyz="-0.433081 -0.691282 1.158425" rpy="0 0 0"/>
+  <parent link="chest_link"/>
+  <child link="r_shoulder_link_1"/>
+</joint>
+
+<joint name="slider_joint" type="prismatic">
+  <origin xyz="1.042922 0.090437 -0.405608" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="chest_link"/>
+  <axis xyz="-8e-06 -3.6e-05 1.0"/>
+  <limit upper="0.4" lower="0.14" effort="100" velocity="100"/>
+</joint>
+
+<joint name="neck_no_joint" type="revolute">
+  <origin xyz="-0.512641 -0.549679 1.332314" rpy="0 0 0"/>
+  <parent link="chest_link"/>
+  <child link="neck_yes_1"/>
+  <axis xyz="-8e-06 -3.6e-05 1.0"/>
+  <limit upper="0.0" lower="-3.141593" effort="100" velocity="100"/>
+</joint>
+
+<joint name="r_tumbl1_joint" type="revolute">
+  <origin xyz="0.0286 -0.024744 -0.073534" rpy="0 0 0"/>
+  <parent link="r_hand_link_1"/>
+  <child link="r_thumb_l1_1"/>
+  <axis xyz="8e-06 3.6e-05 -1.0"/>
+  <limit upper="0.523599" lower="-0.523599" effort="100" velocity="100"/>
+</joint>
+
+<joint name="r_tumbl2_joint" type="revolute">
+  <origin xyz="0.0 0.0 -0.0095" rpy="0 0 0"/>
+  <parent link="r_thumb_l1_1"/>
+  <child link="r_thumb_l2_1"/>
+  <axis xyz="4.2e-05 -1.0 -3.6e-05"/>
+  <limit upper="0.0" lower="-0.872665" effort="100" velocity="100"/>
+</joint>
+
+<joint name="r_tumbl3_joint" type="revolute">
+  <origin xyz="0.049312 3e-06 -0.003299" rpy="0 0 0"/>
+  <parent link="r_thumb_l2_1"/>
+  <child link="r_thumb_l3_1"/>
+  <axis xyz="4.2e-05 -1.0 -3.6e-05"/>
+  <limit upper="0.785398" lower="0.0" effort="100" velocity="100"/>
+</joint>
+
+<joint name="l_tumbl1_joint" type="revolute">
+  <origin xyz="0.028597 0.024751 -0.073533" rpy="0 0 0"/>
+  <parent link="l_hand_link_1"/>
+  <child link="l_thumb_l1_1"/>
+  <axis xyz="8e-06 3.6e-05 -1.0"/>
+  <limit upper="0.436332" lower="-0.436332" effort="100" velocity="100"/>
+</joint>
+
+<joint name="l_tumbl2_joint" type="revolute">
+  <origin xyz="0.0 0.0 -0.0095" rpy="0 0 0"/>
+  <parent link="l_thumb_l1_1"/>
+  <child link="l_thumb_2_1"/>
+  <axis xyz="4.2e-05 -1.0 -3.6e-05"/>
+  <limit upper="0.0" lower="-0.785398" effort="100" velocity="100"/>
+</joint>
+
+<joint name="l_tumbl3_joint" type="revolute">
+  <origin xyz="0.049136 2e-06 0.005216" rpy="0 0 0"/>
+  <parent link="l_thumb_2_1"/>
+  <child link="l_thumb_3_1"/>
+  <axis xyz="4.2e-05 -1.0 -3.6e-05"/>
+  <limit upper="0.0" lower="-0.785398" effort="100" velocity="100"/>
+</joint>
+
+<joint name="l_f1_l1_joint" type="revolute">
+  <origin xyz="-0.01749 0.024378 -0.157797" rpy="0 0 0"/>
+  <parent link="l_hand_link_1"/>
+  <child link="l_f1_l1_1"/>
+  <axis xyz="1.0 4.2e-05 8e-06"/>
+  <limit upper="0.523599" lower="-0.523599" effort="100" velocity="100"/>
+</joint>
+
+<joint name="l_f2_l1_joint" type="revolute">
+  <origin xyz="-0.017488 -0.008422 -0.151752" rpy="0 0 0"/>
+  <parent link="l_hand_link_1"/>
+  <child link="l_f2_l1_1"/>
+  <axis xyz="1.0 4.2e-05 8e-06"/>
+  <limit upper="0.523599" lower="-0.523599" effort="100" velocity="100"/>
+</joint>
+
+<joint name="l_f3_l1_joint" type="revolute">
+  <origin xyz="-0.017487 -0.040622 -0.140741" rpy="0 0 0"/>
+  <parent link="l_hand_link_1"/>
+  <child link="l_f3_l1_1"/>
+  <axis xyz="1.0 4.2e-05 8e-06"/>
+  <limit upper="0.523599" lower="-0.523599" effort="100" velocity="100"/>
+</joint>
+
+<joint name="l_f1_l2_joint" type="revolute">
+  <origin xyz="0.0095 1e-06 1e-06" rpy="0 0 0"/>
+  <parent link="l_f1_l1_1"/>
+  <child link="l_f1_l2_1"/>
+  <axis xyz="4.2e-05 -1.0 6e-06"/>
+  <limit upper="1.047198" lower="0.0" effort="100" velocity="100"/>
+</joint>
+
+<joint name="l_f2_l2_joint" type="revolute">
+  <origin xyz="0.0095 1e-06 0.0" rpy="0 0 0"/>
+  <parent link="l_f2_l1_1"/>
+  <child link="l_f2_l2_1"/>
+  <axis xyz="4.2e-05 -1.0 6e-06"/>
+  <limit upper="1.047198" lower="0.0" effort="100" velocity="100"/>
+</joint>
+
+<joint name="l_f3_l2_joint" type="revolute">
+  <origin xyz="0.0095 0.0 0.0" rpy="0 0 0"/>
+  <parent link="l_f3_l1_1"/>
+  <child link="l_f3_l2_1"/>
+  <axis xyz="-4.2e-05 1.0 -6e-06"/>
+  <limit upper="0.0" lower="-1.047198" effort="100" velocity="100"/>
+</joint>
+
+<joint name="l_f1_l3_joint" type="revolute">
+  <origin xyz="-0.005314 1e-06 -0.049136" rpy="0 0 0"/>
+  <parent link="l_f1_l2_1"/>
+  <child link="l_f1_l3_1"/>
+  <axis xyz="4.2e-05 -1.0 -3.6e-05"/>
+  <limit upper="0.785398" lower="0.0" effort="100" velocity="100"/>
+</joint>
+
+<joint name="l_f2_l3_joint" type="revolute">
+  <origin xyz="-0.005315 1e-06 -0.049135" rpy="0 0 0"/>
+  <parent link="l_f2_l2_1"/>
+  <child link="l_f2_l3_1"/>
+  <axis xyz="4.2e-05 -1.0 -3.6e-05"/>
+  <limit upper="0.785398" lower="0.0" effort="100" velocity="100"/>
+</joint>
+
+<joint name="l_f3_l3_joint" type="revolute">
+  <origin xyz="-0.005315 2e-06 -0.049135" rpy="0 0 0"/>
+  <parent link="l_f3_l2_1"/>
+  <child link="l_f3_l3_1"/>
+  <axis xyz="-4.2e-05 1.0 3.6e-05"/>
+  <limit upper="0.0" lower="-0.785398" effort="100" velocity="100"/>
+</joint>
+
+<joint name="r_f1_l1_joint" type="revolute">
+  <origin xyz="-0.017487 -0.024369 -0.157798" rpy="0 0 0"/>
+  <parent link="r_hand_link_1"/>
+  <child link="r_f1_l1_1"/>
+  <axis xyz="1.0 4.2e-05 8e-06"/>
+  <limit upper="0.785398" lower="-0.785398" effort="100" velocity="100"/>
+</joint>
+
+<joint name="r_f1_l2_joint" type="revolute">
+  <origin xyz="0.0095 0.0 0.0" rpy="0 0 0"/>
+  <parent link="r_f1_l1_1"/>
+  <child link="r_f1_l2_1"/>
+  <axis xyz="4.2e-05 -1.0 -3.6e-05"/>
+  <limit upper="1.047198" lower="0.0" effort="100" velocity="100"/>
+</joint>
+
+<joint name="r_f1_l3_joint" type="revolute">
+  <origin xyz="-0.005314 2e-06 -0.049136" rpy="0 0 0"/>
+  <parent link="r_f1_l2_1"/>
+  <child link="r_f1_l3_1"/>
+  <axis xyz="4.2e-05 -1.0 -3.6e-05"/>
+  <limit upper="0.785398" lower="0.0" effort="100" velocity="100"/>
+</joint>
+
+<joint name="r_f2_l1_joint" type="revolute">
+  <origin xyz="-0.017488 0.008431 -0.151751" rpy="0 0 0"/>
+  <parent link="r_hand_link_1"/>
+  <child link="r_f2_l1_1"/>
+  <axis xyz="1.0 4.2e-05 8e-06"/>
+  <limit upper="0.785398" lower="-0.785398" effort="100" velocity="100"/>
+</joint>
+
+<joint name="r_f2_l2_joint" type="revolute">
+  <origin xyz="0.0095 0.0 0.0" rpy="0 0 0"/>
+  <parent link="r_f2_l1_1"/>
+  <child link="r_f2_l2_1"/>
+  <axis xyz="4.2e-05 -1.0 -3.6e-05"/>
+  <limit upper="1.047198" lower="0.0" effort="100" velocity="100"/>
+</joint>
+
+<joint name="r_f2_l3_joint" type="revolute">
+  <origin xyz="-0.005315 2e-06 -0.049136" rpy="0 0 0"/>
+  <parent link="r_f2_l2_1"/>
+  <child link="r_f2_l3_1"/>
+  <axis xyz="-4.2e-05 1.0 3.6e-05"/>
+  <limit upper="0.0" lower="-0.785398" effort="100" velocity="100"/>
+</joint>
+
+<joint name="r_f3_l1_joint" type="revolute">
+  <origin xyz="-0.01749 0.04063 -0.140738" rpy="0 0 0"/>
+  <parent link="r_hand_link_1"/>
+  <child link="r_f3_l1_1"/>
+  <axis xyz="1.0 4.2e-05 8e-06"/>
+  <limit upper="0.785398" lower="-0.785398" effort="100" velocity="100"/>
+</joint>
+
+<joint name="r_f3_l2_joint" type="revolute">
+  <origin xyz="0.0095 1e-06 0.0" rpy="0 0 0"/>
+  <parent link="r_f3_l1_1"/>
+  <child link="r_f3_l2_1"/>
+  <axis xyz="4.2e-05 -1.0 -3.6e-05"/>
+  <limit upper="1.047198" lower="0.0" effort="100" velocity="100"/>
+</joint>
+
+<joint name="r_f3_l3_joint" type="revolute">
+  <origin xyz="-0.005314 1e-06 -0.049135" rpy="0 0 0"/>
+  <parent link="r_f3_l2_1"/>
+  <child link="r_f3_l3_1"/>
+  <axis xyz="-4.2e-05 1.0 3.6e-05"/>
+  <limit upper="0.0" lower="-0.785398" effort="100" velocity="100"/>
+</joint>
+
+</robot>

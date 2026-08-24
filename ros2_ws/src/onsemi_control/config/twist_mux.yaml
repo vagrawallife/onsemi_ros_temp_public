@@ -1,0 +1,34 @@
+/twist_mux:
+  ros__parameters:
+    use_stamped: false
+    topics:
+      # Navigation commands
+      navigation:
+        topic: cmd_vel_nav
+        timeout: 0.2
+        priority: 10
+
+      # Joystick commands
+      joystick:
+        topic: cmd_vel_joy
+        timeout: 0.2
+        priority: 100
+
+      # Keyboard teleoperation commands
+      keyboard:
+        topic: cmd_vel_key
+        timeout: 0.5
+        priority: 90
+
+      tracker:
+        topic   : cmd_vel_tracker
+        timeout : 0.2
+        priority: 20
+
+    locks:
+      # Emergency stop lock
+      e_stop:
+        topic: e_stop
+        timeout: 0.0
+        priority: 255
+

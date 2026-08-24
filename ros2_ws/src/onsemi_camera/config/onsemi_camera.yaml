@@ -1,0 +1,23 @@
+/**:
+    ros__parameters:
+      video_device: "/dev/onsemi_camera"
+      framerate: 10.0
+      io_method: "mmap"
+      frame_id: "camera_link"
+      pixel_format: "uyvy"  # see usb_cam/supported_formats for list of supported formats
+      av_device_format: "YUV422P"
+      image_width: 1280
+      image_height: 720
+      camera_name: "onsemi_camera"
+      camera_info_url: "package://onsemi_camera/config/onsemi_camera_info.yaml"
+      brightness: 0
+      contrast: 9
+      saturation: 16
+      sharpness: 16
+      gain: 1
+      auto_white_balance: true
+      white_balance: 4500
+      autoexposure: true
+      exposure: 312
+      autofocus: false
+      focus: -1

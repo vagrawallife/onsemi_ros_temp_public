@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
+
+    <xacro:include filename="$(find onsemi_amr)/description/robots/inertial_macros.xacro"/>
+    <xacro:include filename="$(find onsemi_amr)/description/urdf/wheels/omni_wheel.urdf.xacro" />
+
+    <!--Body Dimensions-->
+    <xacro:property name="chassis_length" value="0.43"/>
+    <xacro:property name="chassis_width" value="0.53"/>
+    <xacro:property name="chassis_height" value="0.138"/>
+    <xacro:property name="chassis_ground_clearance" value="0.048"/>
+    <xacro:property name="chassis_density" value="8000.0"/>
+    <xacro:property name="chassis_mass" value="${chassis_density * chassis_length * chassis_width * chassis_height}"/>
+    <!--<xacro:property name="chassis_mass" value="1.0"/>-->
+
+    <!-- wheel dimensions-->
+    <xacro:property name="wheel_radius" value="0.0762"/>
+    <xacro:property name="wheel_thickness" value="0.06"/>
+    <xacro:property name="wheel_mass" value="0.01"/>
+    
+    <xacro:property name="wheel_offset_x" value="0.490"/> <!-- chassis_length + wheel_thickness -->
+    <xacro:property name="wheel_offset_y" value="0.300"/> <!---->
+    <xacro:property name="wheel_offset_z" value="0.0762"/> <!-- wheel_radius-->
+
+    <xacro:property name="wheel_offset" value="${chassis_length/2 - wheel_radius}"/>
+    <xacro:property name="wheel_separation" value="${chassis_width + wheel_thickness}"/>
+
+    <material name="white">
+        <color rgba="1 1 1 1" />
+    </material>
+
+    <material name="orange">
+        <color rgba="1 0.3 0.1 1"/>
+    </material>
+
+    <material name="blue">
+        <color rgba="0.2 0.2 1 1"/>
+    </material>
+
+    <material name="black">
+        <color rgba="0 0 0 1"/>
+    </material>
+
+    <material name="red">
+        <color rgba="1 0 0 1"/>
+    </material>    
+    
+    <!-- BASE LINK -->
+    <link name="base_link"> </link>
+
+    <!-- CHASSIS LINK -->
+    <joint name="chassis_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="chassis"/>        
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+    
+    <!--Body link details of the robot chassis -->
+    <link name="chassis">
+        <visual>
+            <origin xyz="${chassis_length/2} ${chassis_width/2} ${chassis_ground_clearance}" rpy="0 0 ${-PI/2}"/>            
+            <geometry>
+                <mesh filename="package://onsemi_amr/description/meshes/base/amr-base.dae" scale="1 1 1"/>            
+            </geometry>
+            <material name="orange"/>
+        </visual>
+
+        <collision>
+            <origin xyz="${chassis_length/2} ${chassis_width/2} ${chassis_ground_clearance}"/>            
+            <geometry>
+                <mesh filename="package://onsemi_amr/description/meshes/base/amr-base.dae" scale="1 1 1"/>                            
+            </geometry>
+        </collision>
+
+        <xacro:inertial_box mass="${chassis_mass}" x="${chassis_length}" y="${chassis_width}" z="${chassis_height}">
+            <origin xyz="${chassis_length/2} ${chassis_width/2} ${chassis_ground_clearance}"/>            
+        </xacro:inertial_box>
+
+    </link>
+
+    <!-- instantiate robot components -->
+    <xacro:omni_wheel prefix="front_left" orientation="left" parent="chassis" origin_xyz="${-wheel_offset_x/2} ${-wheel_offset_y} ${wheel_offset_z}" origin_rpy="0 0 0"> </xacro:omni_wheel>
+    <xacro:omni_wheel prefix="front_right"  orientation="right"  parent="chassis" origin_xyz="${-wheel_offset_x/2} ${wheel_offset_y} ${wheel_offset_z}" origin_rpy="0 0 0"> </xacro:omni_wheel>    
+    <xacro:omni_wheel prefix="rear_left"  orientation="left" parent="chassis" origin_xyz="${wheel_offset_x/2} ${-wheel_offset_y} ${wheel_offset_z}" origin_rpy="0 0 0"> </xacro:omni_wheel>
+    <xacro:omni_wheel prefix="rear_right"   orientation="right"  parent="chassis" origin_xyz="${wheel_offset_x/2} ${wheel_offset_y} ${wheel_offset_z}" origin_rpy="0 0 0">  </xacro:omni_wheel>    
+
+ 
+</robot>

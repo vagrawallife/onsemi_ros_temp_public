@@ -1,0 +1,11 @@
+/**:
+    ros__parameters:
+      # SDK is COPY'd into the onsemi_ros image at /opt/depthvista (see Dockerfile).
+      sdk_path: "/opt/depthvista/libDepthVistaSDK.so"
+      device_index: 0
+      mode: "conf_hd"        # conf_hd (1280x960) or conf_ir (640x480)
+      cmap_min: 200
+      cmap_max: 1500         # UpdateColorMap(min, max+1000, 4) -> (200, 5000, 4)
+      fps: 15.0
+      frame_id: "itof_optical_frame"
+      namespace: "/itof"

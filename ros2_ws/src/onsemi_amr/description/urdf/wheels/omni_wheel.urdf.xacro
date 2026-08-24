@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="wheel">
+
+ <xacro:include filename="$(find onsemi_amr)/description/robots/inertial_macros.xacro"/>
+
+<!-- constants -->
+<xacro:property name="PI" value="3.141592653" />
+<xacro:property name="wheel_radius" value="0.0765" />
+<xacro:property name="wheel_height" value="0.1524" />
+<xacro:property name="wheel_mass" value="0.600" />
+
+<!-- calculate intertia -->
+<xacro:macro name="cylinder_inertia" params="m r h">
+    <inertia ixx="${m*(3*r*r+h*h)/12}" ixy="0" ixz="0"
+        iyy="${m*r*r/2}" iyz="0"
+        izz="${m*(3*r*r+h*h)/12}" />
+</xacro:macro>
+
+<!--  define wheel -->
+<xacro:macro name="omni_wheel" params="orientation prefix parent origin_xyz origin_rpy">
+
+<!-- <xacro:property name="_orientation" value="${orientation}"/> -->
+
+    <joint name="${prefix}_wheel_joint" type="continuous">
+        <parent link="${parent}" />
+        <child link = "${prefix}_wheel_link" />
+        <origin xyz="${origin_xyz}" rpy="${origin_rpy}" />
+        <axis xyz="0 1 0" rpy="0 0 0" />
+        <limit effort="100" velocity="100"/>
+        <joint_properties damping="0.5" friction="0.0" />
+    </joint>
+
+
+    <link name="${prefix}_wheel_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <xacro:if value = "${orientation == 'left'}">
+                    <mesh filename="package://onsemi_amr/description/meshes/wheels/amr-omni-left-wheel.dae" scale="1 1 1"/>
+                </xacro:if>
+                <xacro:unless value = "${orientation == 'left'}">
+                    <mesh filename="package://onsemi_amr/description/meshes/wheels/amr-omni-right-wheel.dae" scale="1 1 1"/>
+                </xacro:unless>
+            </geometry>            
+        </visual>
+
+        <collision>
+            <!-- <origin xyz="0 0 0" rpy="0 ${PI/2} 0" /> -->
+            <origin xyz="0 0 0" rpy="${PI/2} 0 0" />
+            <geometry>
+                <cylinder length="0.06" radius="${wheel_radius}" />
+            </geometry>
+        </collision>
+
+        <inertial>
+            <mass value="${wheel_mass}" />
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <xacro:cylinder_inertia m="${wheel_mass}" r="${wheel_radius}" h="${wheel_height}" />
+            <!-- <xacro:inertial_cylinder mass="${wheel_mass}" length="${wheel_height}" radius="${wheel_radius}"/> -->
+        </inertial>
+    </link>
+
+   
+    <gazebo reference="${prefix}_wheel_link" >
+        <mu1 value="0.25"/>
+        <mu2 value="0.25"/>
+        <kp value="10000000.0" />
+        <kd value="1.0" />
+        <fdur1 value = "1 0 0" />
+        <turnGravityOff>false</turnGravityOff>
+    </gazebo>
+
+</xacro:macro>
+
+</robot>

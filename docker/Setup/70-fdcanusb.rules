@@ -1,0 +1,17 @@
+# A udev rule to create a /dev/fdcanusb symlink.
+#
+# Install into /etc/udev/rules.d:
+#   sudo cp 70-fdcanusb.rules /etc/udev/rules.d
+#
+# Then run:
+#   sudo udevadm control --reload-rules
+#   sudo udevadm trigger --subsystem-match=tty
+
+SUBSYSTEM=="tty", ATTRS{manufacturer}=="mjbots", ATTRS{product}=="fdcanusb", ATTRS{serial}=="F1A37AC8", MODE="0666", SYMLINK+="fdcanusb_shoulder"
+SUBSYSTEM=="tty", ATTRS{manufacturer}=="mjbots", ATTRS{product}=="fdcanusb", ATTRS{serial}=="99231C16", MODE="0666", SYMLINK+="fdcanusb_arm"
+SUBSYSTEM=="tty", ATTRS{manufacturer}=="mjbots", ATTRS{product}=="fdcanusb", ATTRS{serial}=="21F3E054", MODE="0666", SYMLINK+="fdcanusb_shoulder"
+SUBSYSTEM=="tty", ATTRS{manufacturer}=="mjbots", ATTRS{product}=="fdcanusb", ATTRS{serial}=="30062324", MODE="0666", SYMLINK+="fdcanusb_arm"
+
+SUBSYSTEM=="tty", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="55d3", SYMLINK+="servo_usbserial", MODE="0666"
+
+SUBSYSTEM=="tty", ATTRS{manufacturer}=="mjbots", ATTRS{product}=="fdcanusb", MODE="0666", SYMLINK+="fdcanusb"

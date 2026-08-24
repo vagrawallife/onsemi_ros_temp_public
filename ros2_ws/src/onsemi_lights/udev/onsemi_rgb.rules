@@ -1,0 +1,4 @@
+SUBSYSTEMS=="usb", KERNEL=="ttyUSB*",ATTRS{serial}=="DO01HTAC", ACTION=="add", MODE="0666", SYMLINK+="onsemi_rgb"
+SUBSYSTEMS=="usb", KERNEL=="ttyUSB*",ATTRS{serial}=="DO01HSUL", ACTION=="add", MODE="0666", SYMLINK+="onsemi_rgb"
+SUBSYSTEMS=="usb", KERNEL=="ttyUSB*",ATTRS{serial}=="DO01HQRG", ACTION=="add", MODE="0666", SYMLINK+="onsemi_rgb"
+SUBSYSTEMS=="usb", KERNEL=="ttyACM*",ATTRS{idProduct}=="2307", ACTION=="add", MODE="0666", SYMLINK+="onsemi_corner"

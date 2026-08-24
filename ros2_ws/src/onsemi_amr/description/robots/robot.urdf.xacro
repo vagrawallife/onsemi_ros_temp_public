@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<robot name= "onsemi_robot01" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:arg name="prefix" default="" />    
+    <xacro:arg name="use_mock_hardware" default="true" />
+    <xacro:arg name="sim_mode" default="true"/>
+    <xacro:arg name="use_sim_time" default="true"/>
+
+    <xacro:include filename="$(find onsemi_amr)/description/robots/robot_core.xacro" />    
+    <xacro:include filename="$(find onsemi_amr)/description/robots/ros2_control.xacro" />
+    <xacro:include filename="$(find onsemi_amr)/description/robots/lidar.xacro" />
+    <xacro:include filename="$(find onsemi_amr)/description/robots/camera.xacro" />
+    <!-- <xacro:include filename="$(find onsemi_amr)/description/robots/imu.xacro" /> -->
+    <!-- <xacro:include filename="$(find onsemi_amr)/description/robots/ultrasonic.xacro" /> -->
+    <!--<xacro:include filename="$(find onsemi_amr)/description/robots/depth_camera.xacro" /> -->
+
+     
+</robot>
