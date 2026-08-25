@@ -1,210 +1,28 @@
-# syntax=docker/dockerfile:1
-# =====================================================================
-#  onsemi_ros (robot) Dockerfile  +  DepthVista iToF SDK (runtime)
-#  ---------------------------------------------------------------------
-#  Based on your onsemi_ros_Dockerfile.txt, with a DepthVista SDK section
-#  added so the onsemi_itof ROS node can dlopen libDepthVistaSDK.so.
-#
-#  WHY: the robot launch (launch_robo.launch.py) runs in THIS image. Your
-#  DepthVista .so was baked into the amazing_hand image, which is a DIFFERENT
-#  image. So the SDK must be present here too for the iToF node to load it.
-#
-#  Changes vs your original (all marked with  # >>> ):
-#    * Added DepthVista SDK runtime libs (libusb-1.0-0, libudev1, v4l-utils).
-#    * COPY DepthVistaViewer -> /opt/depthvista  and set LD_LIBRARY_PATH.
-#    * FIX: ENV "KEY = value" (spaces) -> ENV KEY=value  (spaces were baked
-#      into the NVIDIA_* values, making them invalid).
-#    * FIX: 'pip install -y ...' -> 'pip install ...'  (pip has no -y flag;
-#      those lines would fail a fresh build).
-#  Everything else is your original, unchanged.
-# =====================================================================
+# syntax=docker/dockerfile:1.7
+FROM nvcr.io/nvidia/pytorch:23.10-py3 AS llama_builder
+ARG CUDA_ARCHITECTURES=87
+ARG LLAMA_CPP_REF=master
+RUN apt-get update && apt-get install -y git cmake build-essential && rm -rf /var/lib/apt/lists/*
+WORKDIR /build
+RUN git clone https://github.com/ggml-org/llama.cpp.git && cd llama.cpp && git checkout "${LLAMA_CPP_REF}" && cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_CUDA_ARCHITECTURES="${CUDA_ARCHITECTURES}" -DGGML_CUDA=ON -DGGML_NCCL=OFF -DCMAKE_DISABLE_FIND_PACKAGE_NCCL=ON -DCMAKE_EXE_LINKER_FLAGS="-L/usr/local/cuda/lib64/stubs -lcuda" -DCMAKE_SHARED_LINKER_FLAGS="-L/usr/local/cuda/lib64/stubs -lcuda" && cmake --build build --target llama-server -j"$(nproc)"
+
 FROM arm64v8/ros:jazzy
-#FROM osrf/ros:jazzy-desktop-full-noble
 USER root
-ARG WORKSPACE=dev_ws
 ARG ROS_DISTRO=jazzy
-WORKDIR /root/$WORKSPACE
-
-# >>> FIX: no spaces around '=' (original baked the spaces into the value)
-ENV NVIDIA_VISIBLE_DEVICES=${NVIDIA_VISIBLE_DEVICES:-all}
-ENV NVIDIA_DRIVER_CAPABILITIES=${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}graphics
-ENV QT_X11_NO_MITSHM=1
-ENV EDITOR=nano
-ENV XDG_RUNTIME_DIR=/tmp
-ENV PIP_BREAK_SYSTEM_PACKAGES=1
-
-
-RUN apt-get update
-RUN apt-get install -y cmake
-RUN apt-get install -y curl
-RUN apt-get update && \
-    apt-get install -y python3 python3-pip && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
-#RUN apt-get install -y libglu1-mesa-dev
-RUN apt-get update
-RUN apt-get install -y python3-pydantic
-RUN apt-get install -y python3-transforms3d
-RUN apt-get update
-RUN apt-get install -y libserial-dev
-RUN apt-get install -y udev
-RUN apt-get install -y usbutils
-RUN apt-get clean
-RUN apt-get update
-RUN apt install -y python3-serial
-RUN apt install -y python3-setuptools
-RUN apt install -y python3-scipy
-RUN apt install -y python3-tk
-# cant use numpy 2.0
-RUN apt install -y python3-numpy
-#RUN pip3 install --force-reinstall numpy==1.22.4
-RUN apt-get update
-RUN apt-get install -y python3-opencv
-# >>> FIX: pip has no -y flag
-# RUN pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
-
-RUN pip install --break-system-packages torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cpu
-
-RUN apt install -y libboost-python-dev
-#RUN pip3 install opencv-python
-#RUN pip3 uninstall opencv-contrib-python opencv-python
-#RUN apt install -y python3-setuptools==58.2.0
-#RUN apt install -y  python3-opencv-contrib-python==4.7.0.68
-#RUN apt install -y  python3-opencv-python==4.7.0.68
-RUN apt update && apt install
-RUN apt-get install -y libgstreamer1.0-0
-RUN apt-get install -y gstreamer1.0-tools
-RUN apt-get install -y gstreamer1.0-plugins-good
-RUN apt-get install -y gstreamer1.0-plugins-bad
-RUN apt-get install -y gstreamer1.0-plugins-ugly
-RUN apt-get install -y gstreamer1.0-libav
-#1RUN apt-get install -y libgles2-mesa
-RUN apt-get install -y ros-$ROS_DISTRO-joint-state-publisher
-RUN apt-get install -y ros-$ROS_DISTRO-robot-localization
-#RUN apt-get install -y ros-$ROS_DISTRO-plotjuggler-ros
-RUN apt-get install -y ros-$ROS_DISTRO-robot-state-publisher
-RUN apt-get install -y ros-$ROS_DISTRO-ros2bag
-RUN apt-get install -y ros-$ROS_DISTRO-rosbag2-storage-default-plugins
-RUN apt-get install -y ros-$ROS_DISTRO-rqt-tf-tree
-RUN apt-get install -y ros-$ROS_DISTRO-rmw-fastrtps-cpp
-RUN apt-get install -y ros-$ROS_DISTRO-rmw-cyclonedds-cpp
-RUN apt-get install -y ros-$ROS_DISTRO-slam-toolbox
-RUN apt-get install -y ros-$ROS_DISTRO-twist-mux
-RUN apt-get install -y ros-$ROS_DISTRO-teleop-twist-joy
-RUN apt-get install -y ros-$ROS_DISTRO-joy
-RUN apt-get install -y ros-$ROS_DISTRO-usb-cam
-RUN apt-get install -y ros-$ROS_DISTRO-xacro
-RUN apt-get install -y ros-$ROS_DISTRO-controller-manager
-RUN apt-get install -y ros-$ROS_DISTRO-tf-transformations
-RUN apt-get install -y ros-$ROS_DISTRO-tf2-ros
-RUN apt-get install -y ros-$ROS_DISTRO-tf2-tools
-RUN apt-get install -y ros-$ROS_DISTRO-ros2-control
-RUN apt-get install -y ros-$ROS_DISTRO-ros2-controllers
-RUN apt-get install -y ros-$ROS_DISTRO-hardware-interface
-RUN apt-get install -y ros-$ROS_DISTRO-joint-state-broadcaster
-RUN apt-get install -y ros-$ROS_DISTRO-diff-drive-controller
-RUN apt-get install -y ros-$ROS_DISTRO-mecanum-drive-controller
-RUN apt-get install -y ros-$ROS_DISTRO-navigation2
-RUN apt-get install -y ros-$ROS_DISTRO-nav2-bringup
-RUN apt-get install -y ros-$ROS_DISTRO-joint-state-publisher-gui
-RUN apt-get install -y ros-$ROS_DISTRO-image-transport-plugins
-RUN apt-get install -y ros-$ROS_DISTRO-image-view
-RUN apt-get install -y ros-$ROS_DISTRO-rviz2
-RUN apt-get install -y ros-$ROS_DISTRO-foxglove-bridge
-RUN apt-get install -y ros-$ROS_DISTRO-rtabmap-ros
-RUN apt update
-RUN apt-get install -y ros-$ROS_DISTRO-vision-opencv
-RUN apt-get install -y ros-$ROS_DISTRO-cv-bridge
-RUN sudo apt-get update
-#RUN sudo apt-get install curl lsb-release gnupg
-RUN sudo curl https://packages.osrfoundation.org/gazebo.gpg --output /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg
-RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null
-RUN sudo apt-get update
-RUN sudo apt-get install -y gz-harmonic
-RUN apt-get update
-RUN apt-get install -y ros-$ROS_DISTRO-gz-ros2-control
-RUN apt-get install -y libeigen3-dev
-RUN apt-get install -y mesa-utils
-RUN apt-get install -y dbus-x11
-
-# Install required native system build tools and GUI libraries
-RUN apt-get update && apt-get install -y --no-install-recommends 
-RUN apt-get install -y build-essential \
-    python3-dev \
-    libgl1 \
-    libglx-mesa0 \
-    libxrender1 \
-    libxext6 \
-    libboost-python-dev libudev-dev \
-    libglu1-mesa-dev libxcb-cursor0 mesa-utils dbus-x11 \
-    udev usbutils \
-    libusb-1.0-0 v4l-utils libgl1 libegl1 libgomp1 \
-    && rm -rf /var/lib/apt/lists/*
-
-
-    
-# Now run your pip installation
-RUN pip install moteus-gui --ignore-installed --break-system-packages
-
-# RUN pip install --upgrade pip && pip install \
-#         setuptools \
-#         colcon-common-extensions \
-#         gradio-imageslider \
-#         gradio==4.14.0 \
-#         pynput \
-#         pyserial \
-#         dora-rs-cli \
-#         mediapipe==0.10.18 \
-#         opencv-python==4.10.0.84 \
-#         pyarrow==17.0.0 \
-#         scipy==1.14.1 \
-#         rustypot \
-#         moteus-gui \
-#         mujoco \
-#         mink \
-#         loop-rate-limiters \
-#         "qpsolvers[quadprog]"
-
-
-
-# # Set environment variables for Intel colcomGPU support
-# ENV INTEL_VISIBLE_DEVICES ${INTEL_VISIBLE_DEVICES:-all}
-# ENV INTEL_DRIVER_CAPABILITIES ${INTEL_DRIVER_CAPABILITIES:+$INTEL_DRIVER_CAPABILITIES,}graphics
-RUN apt-get -y upgrade
-RUN echo "source /opt/ros/jazzy/setup.bash" >> /etc/bash.bashrc
-#RUN echo "source /home/onsemi/amr_diff/ros2_ws/install/setup.bash" >> /etc/bash.bashrc
-#ENTRYPOINT ["/home/onsemi/arm_diff/ros2_ws/src/onsemi_amr/startup.sh"]
-#RUN cd /home/onsemi/amr_ros2/dev_ws/src/
-
-# =====================================================================
-# >>> DepthVista iToF SDK  (runtime only; used by the onsemi_itof ROS node)
-#     The ROS node dlopen()s libDepthVistaSDK.so. This image (not the
-#     amazing_hand image) runs the robot launch, so the SDK must live here.
-#
-#     BUILD CONTEXT REQUIREMENT:
-#       Put a  DepthVistaViewer/  folder next to THIS Dockerfile, containing the
-#       aarch64  libDepthVistaSDK.so  (+ any dependent .so files) inside it.
-#       (Only the .so files are strictly required by the ROS node; copying the
-#        whole DepthVistaViewer folder is fine too.)
-# =====================================================================
-# SDK runtime dependencies (USB + udev + V4L). Your image did not have these.
-RUN apt-get update && apt-get install -y --no-install-recommends \
-        libusb-1.0-0 libudev1 v4l-utils \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Bring the DepthVista SDK into the image and make it discoverable.
-COPY DepthVistaViewer /opt/depthvista/
-ENV LD_LIBRARY_PATH="/opt/depthvista:${LD_LIBRARY_PATH}"
-# <<< DepthVista iToF SDK
-# =====================================================================
-# Launcher commands
-RUN printf '%s\n' \
-    '#!/usr/bin/env bash' 'cd /opt/depthvista' \
-    'exec python3 depthvista_camera_live.py "$@"' \
-    > /usr/local/bin/depthvista && chmod +x /usr/local/bin/depthvista \
- && printf '%s\n' \
-    '#!/usr/bin/env bash' 'cd /opt/depthvista' \
-    'exec python3 DepthVistaViewer/depthvista_view_legacy.py "$@"' \
-    > /usr/local/bin/depthvista-view && chmod +x /usr/local/bin/depthvista-view
-
-RUN echo "All Done"
+ARG VLA_REF=82c6ce7fd06eca3b8f28e32c6d5c615ceb973484
+ENV DEBIAN_FRONTEND=noninteractive NVIDIA_VISIBLE_DEVICES=all NVIDIA_DRIVER_CAPABILITIES=graphics,utility,compute QT_X11_NO_MITSHM=1 EDITOR=nano XDG_RUNTIME_DIR=/tmp PIP_BREAK_SYSTEM_PACKAGES=1 PYTHONPATH=/opt/gemma_vla
+RUN apt-get update && apt-get install -y --no-install-recommends build-essential cmake curl git gnupg lsb-release sudo python3 python3-dev python3-pip python3-pydantic python3-transforms3d python3-serial python3-setuptools python3-scipy python3-tk python3-numpy python3-opencv libserial-dev libboost-python-dev libudev-dev libusb-1.0-0 libusb-1.0-0-dev udev usbutils v4l-utils libgl1 libegl1 libgomp1 libglx-mesa0 libglu1-mesa-dev mesa-utils libxrender1 libxext6 libxcb-cursor0 dbus-x11 libgstreamer1.0-0 gstreamer1.0-tools gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav libasound2-dev portaudio19-dev pulseaudio-utils alsa-utils psmisc ros-${ROS_DISTRO}-joint-state-publisher ros-${ROS_DISTRO}-joint-state-publisher-gui ros-${ROS_DISTRO}-robot-localization ros-${ROS_DISTRO}-robot-state-publisher ros-${ROS_DISTRO}-ros2bag ros-${ROS_DISTRO}-rosbag2-storage-default-plugins ros-${ROS_DISTRO}-rqt-tf-tree ros-${ROS_DISTRO}-rmw-fastrtps-cpp ros-${ROS_DISTRO}-rmw-cyclonedds-cpp ros-${ROS_DISTRO}-slam-toolbox ros-${ROS_DISTRO}-twist-mux ros-${ROS_DISTRO}-teleop-twist-joy ros-${ROS_DISTRO}-joy ros-${ROS_DISTRO}-usb-cam ros-${ROS_DISTRO}-xacro ros-${ROS_DISTRO}-controller-manager ros-${ROS_DISTRO}-tf-transformations ros-${ROS_DISTRO}-tf2-ros ros-${ROS_DISTRO}-tf2-tools ros-${ROS_DISTRO}-ros2-control ros-${ROS_DISTRO}-ros2-controllers ros-${ROS_DISTRO}-hardware-interface ros-${ROS_DISTRO}-joint-state-broadcaster ros-${ROS_DISTRO}-diff-drive-controller ros-${ROS_DISTRO}-mecanum-drive-controller ros-${ROS_DISTRO}-navigation2 ros-${ROS_DISTRO}-nav2-bringup ros-${ROS_DISTRO}-image-transport-plugins ros-${ROS_DISTRO}-image-view ros-${ROS_DISTRO}-rviz2 ros-${ROS_DISTRO}-foxglove-bridge ros-${ROS_DISTRO}-rtabmap-ros ros-${ROS_DISTRO}-vision-opencv ros-${ROS_DISTRO}-cv-bridge && rm -rf /var/lib/apt/lists/*
+RUN curl -fsSL https://packages.osrfoundation.org/gazebo.gpg -o /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(. /etc/os-release && echo ${UBUNTU_CODENAME}) main" > /etc/apt/sources.list.d/gazebo-stable.list && apt-get update && apt-get install -y --no-install-recommends gz-harmonic ros-${ROS_DISTRO}-gz-ros2-control libeigen3-dev && rm -rf /var/lib/apt/lists/*
+RUN python3 -m pip install --no-cache-dir --break-system-packages torch torchvision torchaudio moteus-gui onnxruntime==1.19.2 numpy==1.26.4 sounddevice soundfile requests opencv-python onnx-asr espeakng-loader phonemizer-fork huggingface_hub attrs scipy tqdm certifi filelock fsspec pyyaml h5py typing-extensions && python3 -m pip install --no-cache-dir --break-system-packages --no-dependencies kokoro-onnx==0.5.0
+COPY DepthVistaViewer/ /opt/depthvista/
+ENV LD_LIBRARY_PATH=/opt/depthvista:/usr/local/lib:${LD_LIBRARY_PATH}
+RUN printf '%s\n' '#!/usr/bin/env bash' 'cd /opt/depthvista' 'exec python3 depthvista_camera_live.py "$@"' > /usr/local/bin/depthvista && printf '%s\n' '#!/usr/bin/env bash' 'cd /opt/depthvista' 'exec python3 depthvista_view_legacy.py "$@"' > /usr/local/bin/depthvista-view && chmod +x /usr/local/bin/depthvista /usr/local/bin/depthvista-view
+COPY --from=llama_builder /build/llama.cpp/build/bin/llama-server /usr/local/bin/llama-server
+COPY --from=llama_builder /build/llama.cpp/build/bin/*.so* /usr/local/lib/
+RUN ldconfig
+RUN git clone https://github.com/onsemi-app/cool_audio_video.git /tmp/cool_audio_video && cd /tmp/cool_audio_video && git checkout "${VLA_REF}" && VLA_FILE="$(find . -type f -name Gemma4_vla.py | head -1)" && test -n "${VLA_FILE}" && mkdir -p /opt/gemma_vla && cp -a "$(dirname "${VLA_FILE}")/." /opt/gemma_vla/
+COPY GemmaVLA/patch_vla.py /tmp/patch_vla.py
+RUN python3 /tmp/patch_vla.py /opt/gemma_vla/Gemma4_vla.py && rm -rf /tmp/cool_audio_video /tmp/patch_vla.py
+RUN printf '%s\n' '#!/usr/bin/env bash' 'exec python3 /opt/gemma_vla/Gemma4_vla.py "$@"' > /usr/local/bin/gemma-vla-client && chmod +x /usr/local/bin/gemma-vla-client && echo 'source /opt/ros/jazzy/setup.bash' >> /etc/bash.bashrc
+WORKDIR /home/onsemi/onsemi_ros/ros2_ws
+CMD ["bash"]
